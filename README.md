@@ -129,7 +129,6 @@ The promo moved stock but generated near-zero revenue growth. Recommendation: us
 | [🗂️ data_dictionary.md](data_dictionary.md) | **Start here** — full schema documentation and data quality decisions |
 | [🔍 investigation.sql](investigation.sql) | All SQL queries grouped by hypothesis, findings inline |
 | [📊 imbewu_dashboard.html](imbewu_dashboard.html) | Interactive 4-page dashboard (open in browser) |
-| [📖 PowerBI_Build_Guide.docx](PowerBI_Build_Guide.docx) | 26-step guide to rebuilding the dashboard in Power BI |
 ```
 
 ---
