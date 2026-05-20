@@ -44,9 +44,19 @@ Six tables covering 18 months of retail operations:
 | `transactions` | 9,164 | Every till receipt issued |
 | `transaction_items` | 48,641 | Line-item detail: quantity, price, discount |
 | `promotions` | 4 | Historical marketing campaigns |
-### 🗺️ Entity Relationship Diagram
-![ERD.drawio](ERD.drawio)
 
+The data intentionally contained real-world messiness: inconsistent province casing, NULL customer IDs (anonymous shoppers), missing demographic fields, and a date range that required careful handling for year-over-year comparisons.
+
+### 🗺️ Entity Relationship Diagram
+
+![Imbewu Retail ERD](ERD_diagram.png)
+
+> **Relationships:**
+> - `Stores` → `Transactions` (one-to-many via Store_ID)
+> - `Customers` → `Transactions` (one-to-many via Customer_ID)
+> - `Transactions` → `Transaction_items` (one-to-many via Transaction_ID)
+> - `Products` → `Transaction_items` (one-to-many via Product_ID)
+> - `Promotion` → `Products` (one-to-many — promo targets a product category)
 The data intentionally contained real-world messiness: inconsistent province casing, NULL customer IDs (anonymous shoppers), missing demographic fields, and a date range that required careful handling for year-over-year comparisons.
 
 ---
