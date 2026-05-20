@@ -137,7 +137,6 @@ The promo moved stock but generated near-zero revenue growth. Recommendation: us
 ## ⚙️ Tools Used
 
 | Tool | Purpose |
-|---|---|
 | SQL (Databricks dialect) | Data profiling, hypothesis testing, CTEs, window functions |
 | Power BI Desktop | 4-page executive dashboard |
 | Microsoft Word | Structured investigation documents |
@@ -194,5 +193,3 @@ The findings are meaningless if the Head of Sales can't use them in an exec meet
 ## 👤 About This Project
 
 Capstone project for the **Data Analyst Programme at Witle Academy**, completed as a simulated real-world analytics engagement. The dataset is synthetic but the methodology, decisions, and findings are all original work.
-
-*Week 4 (Executive Summary) coming soon.*
