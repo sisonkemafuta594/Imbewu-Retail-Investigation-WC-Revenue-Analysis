@@ -124,7 +124,7 @@ The promo moved stock but generated near-zero revenue growth. Recommendation: us
 | File | Description |
 |---|---|
 | [📄 Week1_Investigation_Plan.docx](Week1_Investigation_Plan.docx) | Hypothesis framework, data profiling, quality decisions |
-| [📄 Week2_Deep_Investigation.docx](Week2_Deep_Investigation.docx) | Full findings: Hypotheses A, B, C + Promo evaluation |
+| [📄 Documentary Notes Investigation.docx](Documentary_Notes_Investigation.docx) | Full findings: Hypotheses A, B, C + Promo evaluation |
 | [📄 Week3_StoreLevel_DeepDive.docx](Week3_StoreLevel_DeepDive.docx) | Individual store analysis, bright spots, dashboard plan |
 | [🗂️ data_dictionary.md](data_dictionary.md) | **Start here** — full schema documentation and data quality decisions |
 | [🔍 investigation.sql](investigation.sql) | All SQL queries grouped by hypothesis, findings inline |
