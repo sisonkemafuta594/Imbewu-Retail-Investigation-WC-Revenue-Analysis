@@ -1,0 +1,343 @@
+
+<h2 class="sr-only">Imbewu Retail — Final 3-page board dashboard. Page 1: The problem. Page 2: Root cause. Page 3: What to do.</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.db{font-family:var(--font-sans);width:100%;}
+.topbar{background:#0f2d1a;padding:10px 18px;border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0;display:flex;align-items:center;justify-content:space-between;}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.logo{width:28px;height:28px;background:#2d7a45;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.tb-title{font-size:13px;font-weight:500;color:#fff;}
+.tb-sub{font-size:10px;color:#6b9e7a;margin-top:1px;}
+.tb-meta{font-size:10px;color:#4b7057;font-style:italic;}
+.tabs{background:#0a2012;display:flex;gap:0;padding:0 18px;border-bottom:1px solid #1a3d24;}
+.tab{padding:9px 18px;font-size:11px;font-weight:500;color:#4b7057;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.tab.on{color:#5ecf7e;border-bottom-color:#5ecf7e;background:rgba(94,207,126,.06);}
+.tab:hover:not(.on){color:#8dc99e;}
+.tab-num{width:18px;height:18px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tab.on .tab-num{background:#5ecf7e;color:#0a2012;}
+.tab:not(.on) .tab-num{background:#1a3d24;color:#4b7057;}
+.canvas{background:#f2f4f0;padding:16px;border-radius:0 0 var(--border-radius-lg) var(--border-radius-lg);}
+.pg{display:none;}
+.pg.on{display:block;}
+
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;}
+.kcard{background:#fff;border-radius:var(--border-radius-md);padding:12px 14px;border:0.5px solid #dde2d8;}
+.klabel{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.kval{font-size:22px;font-weight:500;color:#111;line-height:1;}
+.ksub{font-size:11px;margin-top:4px;}
+.red{color:#b91c1c;} .grn{color:#15803d;} .muted{color:#6b7280;}
+
+.grid2{display:grid;grid-template-columns:1.55fr 1fr;gap:12px;margin-bottom:12px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
+.card{background:#fff;border-radius:var(--border-radius-md);padding:14px 16px;border:0.5px solid #dde2d8;margin-bottom:12px;}
+.ctitle{font-size:10px;font-weight:500;color:#374151;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.insight{background:#fffbeb;border-left:3px solid #d97706;padding:9px 13px;margin-bottom:12px;font-size:11px;color:#78350f;line-height:1.55;border-radius:0;}
+
+.sbar-wrap{display:flex;flex-direction:column;gap:5px;}
+.srow{display:flex;align-items:center;gap:6px;}
+.sname{width:155px;font-size:10px;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;}
+.strack{flex:1;height:14px;background:#f0f2ee;border-radius:2px;position:relative;overflow:visible;}
+.scenter{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#adb5ad;z-index:1;}
+.sbar{position:absolute;height:100%;border-radius:2px;top:0;}
+.sval{font-size:10px;font-weight:500;flex-shrink:0;width:36px;text-align:right;}
+.sbadge{font-size:9px;padding:1px 5px;border-radius:3px;flex-shrink:0;}
+
+.rec3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
+.rec{border-radius:var(--border-radius-md);padding:13px;background:#fff;border:0.5px solid #dde2d8;border-top-width:3px;}
+.rec-tag{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.rec-h{font-size:12px;font-weight:500;color:#111;margin-bottom:7px;}
+.rec-b{font-size:11px;color:#6b7280;line-height:1.55;}
+.rec-action{margin-top:8px;font-size:10px;font-weight:500;padding:4px 8px;border-radius:4px;display:inline-block;}
+
+.ptable{width:100%;border-collapse:collapse;font-size:11px;}
+.ptable th{text-align:left;padding:5px 9px;background:#f8f9f6;font-weight:500;color:#6b7280;border-bottom:0.5px solid #e5e7eb;font-size:10px;text-transform:uppercase;letter-spacing:.04em;}
+.ptable td{padding:6px 9px;border-bottom:0.5px solid #f0f2ee;color:#374151;}
+.ptable tr:last-child td{border-bottom:none;}
+
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:#6b7280;}
+.lsq{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+.tier-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.tier-label{width:70px;font-size:11px;color:#374151;flex-shrink:0;}
+.tier-bars{flex:1;display:flex;flex-direction:column;gap:2px;}
+.bar-row{display:flex;align-items:center;gap:4px;}
+.bar-year{font-size:9px;color:#9ca3af;width:28px;flex-shrink:0;}
+.bar-fill{height:10px;border-radius:2px;min-width:2px;}
+.bar-rev{font-size:9px;color:#6b7280;margin-left:4px;}
+</style>
+
+<div class="db">
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo"><i class="ti ti-leaf" aria-hidden="true" style="font-size:14px;color:#a3e4b4;"></i></div>
+    <div><div class="tb-title">Imbewu Retail — Western Cape Revenue Investigation</div><div class="tb-sub">Board presentation  ·  H1 2024 vs H1 2025  ·  45 stores  ·  18 months data</div></div>
+  </div>
+  <div class="tb-meta">Prepared for: V. Mthembu (COO)  ·  June 2025</div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="show(0,this)"><span class="tab-num">1</span><i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:11px;"></i>What's the problem?</div>
+  <div class="tab" onclick="show(1,this)"><span class="tab-num">2</span><i class="ti ti-microscope" aria-hidden="true" style="font-size:11px;"></i>What's causing it?</div>
+  <div class="tab" onclick="show(2,this)"><span class="tab-num">3</span><i class="ti ti-bulb" aria-hidden="true" style="font-size:11px;"></i>What should we do?</div>
+</div>
+
+<div class="canvas">
+
+<div class="pg on" id="pg0">
+  <div class="insight"><strong>Board answer:</strong> Western Cape is the only province with declining revenue (−6.0% H1 YoY). All others grew 9–15%. Foot traffic is flat — customers are visiting but spending R19 less per trip. This is a basket-size problem, not a volume problem.</div>
+  <div class="krow">
+    <div class="kcard"><div class="klabel">WC Revenue H1 2025</div><div class="kval">R362.9K</div><div class="ksub red">▼ R23.3K vs H1 2024</div></div>
+    <div class="kcard"><div class="klabel">WC YoY change</div><div class="kval red">−6.0%</div><div class="ksub muted">Only declining province</div></div>
+    <div class="kcard"><div class="klabel">WC avg basket</div><div class="kval">R373</div><div class="ksub red">▼ R19 vs H1 2024 (−4.8%)</div></div>
+    <div class="kcard"><div class="klabel">WC transactions H1</div><div class="kval">~980</div><div class="ksub muted">Broadly flat (−2.3% only)</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="ctitle">Monthly revenue — all provinces (Jan 2024 – Jun 2025)</div>
+      <div class="leg">
+        <div class="li"><div class="lsq" style="background:#c0392b;"></div>Western Cape</div>
+        <div class="li"><div class="lsq" style="background:#9ca3af;border:1px dashed #6b7280;"></div>Gauteng</div>
+        <div class="li"><div class="lsq" style="background:#c4c9c0;border:1px dashed #9ca3af;"></div>KwaZulu-Natal</div>
+        <div class="li"><div class="lsq" style="background:#e2e5df;"></div>Eastern Cape</div>
+      </div>
+      <div style="position:relative;height:200px;"><canvas id="lineC" role="img" aria-label="Line chart showing Western Cape revenue falling from Jan 2025 while other provinces rise">WC diverges downward from Jan 2025.</canvas></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">H1 2025 vs H1 2024 — revenue growth by province</div>
+      <div style="position:relative;height:230px;"><canvas id="provC" role="img" aria-label="Horizontal bar chart: WC minus 6 percent, others positive 8 to 15 percent">WC is the only negative province.</canvas></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:0;">
+    <div class="ctitle">Province summary table — H1 2024 vs H1 2025</div>
+    <table class="ptable" style="table-layout:fixed;width:100%;">
+      <thead><tr><th style="width:30%;">Province</th><th style="width:17%;">H1 2024</th><th style="width:17%;">H1 2025</th><th style="width:13%;">YoY %</th><th style="width:23%;">Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:500;">Western Cape</td><td>R386,195</td><td>R362,891</td><td class="red" style="font-weight:500;">−6.0%</td><td style="color:#b91c1c;font-size:10px;">⚠ Only declining region</td></tr>
+        <tr><td>Eastern Cape</td><td>R88,529</td><td>R96,153</td><td class="grn">+8.6%</td><td style="color:#6b7280;font-size:10px;">Healthy growth</td></tr>
+        <tr><td>Gauteng</td><td>R249,259</td><td>R273,551</td><td class="grn">+9.7%</td><td style="color:#6b7280;font-size:10px;">Strong growth</td></tr>
+        <tr><td>KwaZulu-Natal</td><td>R216,410</td><td>R248,124</td><td class="grn">+14.7%</td><td style="color:#6b7280;font-size:10px;">Best performer</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="pg" id="pg1">
+  <div class="insight"><strong>Board answer:</strong> Three Mega stores (Bellville −25%, Paarl −12%, Tygervalley −7%) account for 132% of the gross WC decline. Without them, WC would be growing. The culprit is Groceries (−9%) and Household (−11%) — categories nationally growing +3% and +0.1%. Silver-tier loyalty customers are also visiting 10% less often.</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="ctitle">All 12 WC stores — H1 revenue change (ranked worst to best)</div>
+      <div class="sbar-wrap" id="sbars"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card" style="margin-bottom:0;">
+        <div class="ctitle">Store format breakdown — WC H1</div>
+        <div style="position:relative;height:130px;"><canvas id="fmtC" role="img" aria-label="Grouped bar chart of WC revenue by store format. Mega stores are down 11.6 percent, Express and Market are growing.">Mega format drives the entire WC decline.</canvas></div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <div class="ctitle">Category revenue — WC vs national change %</div>
+        <div class="leg"><div class="li"><div class="lsq" style="background:#c0392b;"></div>WC</div><div class="li"><div class="lsq" style="background:#86efac;"></div>National</div></div>
+        <div style="position:relative;height:130px;"><canvas id="catC" role="img" aria-label="Grouped bar chart: Groceries and Household declining in WC but growing nationally. WC Groceries minus 8.9, national plus 3.">Groceries and Household are WC-specific declines.</canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" style="margin-bottom:0;">
+      <div class="ctitle">Loyalty tier revenue — WC H1 2024 vs H1 2025</div>
+      <div id="tierVis"></div>
+      <div style="margin-top:8px;font-size:10px;color:#6b7280;">Silver visits down 10.3% · Gold visits stable · Silver is the at-risk segment</div>
+    </div>
+    <div class="card" style="margin-bottom:0;">
+      <div class="ctitle">Key findings — what the store data confirms</div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:4px;">
+        <div style="background:#fef2f2;border-left:3px solid #dc2626;padding:7px 10px;font-size:11px;color:#7f1d1d;border-radius:0;"><strong>Bellville Mega (−25.3%):</strong> Groceries alone lost R12,402 — 65% of Bellville's total decline. Basket dropped R547 → R463. Likely a local competitive threat.</div>
+        <div style="background:#fef2f2;border-left:3px solid #dc2626;padding:7px 10px;font-size:11px;color:#7f1d1d;border-radius:0;"><strong>Paarl Mega (−12.0%):</strong> Groceries + Household + Apparel all declining. Broader discretionary pullback. Basket R523 → R464.</div>
+        <div style="background:#fef9f0;border-left:3px solid #f59e0b;padding:7px 10px;font-size:11px;color:#78350f;border-radius:0;"><strong>Tygervalley (−6.7%):</strong> Visits flat, basket shrinking — classic price-sensitivity pattern. Electronics growing (+21.9%) while staples fall.</div>
+        <div style="background:#f0fdf4;border-left:3px solid #16a34a;padding:7px 10px;font-size:11px;color:#14532d;border-radius:0;"><strong>Bright spots:</strong> Khayelitsha (+29.6%), Mitchell's Plain (+39.7%), Sea Point (+31.7%) prove no brand problem — targeted stores can grow fast.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg2">
+  <div class="insight"><strong>Board answer:</strong> Three actions — audit the three failing Mega stores immediately, re-engage Silver-tier customers with a targeted offer, and investigate competitive threats near Bellville and Paarl. The Pap Power Promo model (+50.5% volume in April 2025) is the template for the retention campaign.</div>
+  <div class="rec3">
+    <div class="rec" style="border-top-color:#dc2626;">
+      <div class="rec-tag" style="color:#dc2626;"><i class="ti ti-flame" aria-hidden="true" style="font-size:11px;margin-right:3px;"></i>Immediate — 0 to 4 weeks</div>
+      <div class="rec-h">Operational audit: Bellville, Paarl & Tygervalley Mega</div>
+      <div class="rec-b">Three Mega stores account for R30,819 in lost revenue — 132% of the total WC gap. Conduct store-level audit. Focus on Groceries and Household shelf availability, pricing, and competitor proximity.<br><br>Bellville is the priority: −R18,827 alone. February 2025 saw a 45% basket crash that has only partially recovered.</div>
+      <div class="rec-action" style="background:#fef2f2;color:#b91c1c;">Target: audit within 3 weeks</div>
+    </div>
+    <div class="rec" style="border-top-color:#d97706;">
+      <div class="rec-tag" style="color:#d97706;"><i class="ti ti-users" aria-hidden="true" style="font-size:11px;margin-right:3px;"></i>Short-term — 1 to 3 months</div>
+      <div class="rec-h">Retain Silver-tier WC loyalty customers</div>
+      <div class="rec-b">Silver members are visiting 10.3% less often and spending less per trip. Gold is stable. Silver re-engagement is the priority action before more churn occurs.<br><br>Run a targeted Groceries/Household offer for WC Silver members only. Model the structure on the Pap Power Promo (+50.5% volume in April 2025). Consider a 20% discount rather than 33% to protect margin while restoring visit frequency.</div>
+      <div class="rec-action" style="background:#fffbeb;color:#92400e;">Template: Pap Power Promo mechanic</div>
+    </div>
+    <div class="rec" style="border-top-color:#2563eb;">
+      <div class="rec-tag" style="color:#2563eb;"><i class="ti ti-search" aria-hidden="true" style="font-size:11px;margin-right:3px;"></i>Investigate — ongoing</div>
+      <div class="rec-h">Identify and respond to competitive threat</div>
+      <div class="rec-b">The Bellville Groceries pattern — high volume, fast decline, concentrated in staples — is the signature of a new competitor opening nearby. Tygervalley's flat visits + falling baskets is consistent with price competition.<br><br>Check for store openings near Bellville and Paarl. Survey Silver-tier WC members who have not transacted in 90+ days. Replicate the Khayelitsha growth playbook in affected catchments.</div>
+      <div class="rec-action" style="background:#eff6ff;color:#1e40af;">Focus: Bellville & Paarl catchments</div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-bottom:0;">
+    <div class="card" style="margin-bottom:0;">
+      <div class="ctitle"><i class="ti ti-sparkles" aria-hidden="true" style="color:#d97706;font-size:12px;margin-right:4px;"></i>Pap Power Promo results — proof the model works (April 2025)</div>
+      <table class="ptable" style="table-layout:fixed;width:100%;">
+        <thead><tr><th style="width:38%;">Metric</th><th style="width:27%;">April 2024</th><th style="width:27%;">April 2025</th><th style="width:8%;"></th></tr></thead>
+        <tbody>
+          <tr><td>Maize Meal units sold</td><td>307</td><td>462</td><td class="grn" style="font-weight:500;">+50%</td></tr>
+          <tr><td>Net revenue (category)</td><td>R14,888</td><td>R15,219</td><td class="grn" style="font-weight:500;">+2.2%</td></tr>
+          <tr><td>Discount given</td><td>R0</td><td>R2,500</td><td class="muted">Cost</td></tr>
+          <tr><td>Avg total basket (April)</td><td>R309</td><td>R329</td><td class="grn" style="font-weight:500;">+6.5%</td></tr>
+          <tr><td>Total store revenue (April)</td><td>R152,457</td><td>R156,913</td><td class="grn" style="font-weight:500;">+2.9%</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:11px;color:#6b7280;">Verdict: Volume +50.5%, revenue +2.2%. Basket buyers spent R20 more on other items. Promo model works — recommend 20% discount for Silver-tier campaign to improve margin retention vs the 33% used here.</div>
+    </div>
+    <div class="card" style="margin-bottom:0;">
+      <div class="ctitle">WC bright spots — the growth playbook</div>
+      <table class="ptable" style="table-layout:fixed;width:100%;">
+        <thead><tr><th>Store</th><th>Format</th><th>H1 change</th><th>What's working</th></tr></thead>
+        <tbody>
+          <tr><td style="font-size:10px;">Mitchell's Plain</td><td style="font-size:10px;">Express</td><td class="grn" style="font-weight:500;">+39.7%</td><td style="font-size:10px;color:#6b7280;">Underserved area, high traffic</td></tr>
+          <tr><td style="font-size:10px;">Sea Point</td><td style="font-size:10px;">Express</td><td class="grn" style="font-weight:500;">+31.7%</td><td style="font-size:10px;color:#6b7280;">High-footfall urban location</td></tr>
+          <tr><td style="font-size:10px;">Khayelitsha</td><td style="font-size:10px;">Market</td><td class="grn" style="font-weight:500;">+29.6%</td><td style="font-size:10px;color:#6b7280;">Visits +20% AND basket +7.7%</td></tr>
+          <tr><td style="font-size:10px;">Stellenbosch</td><td style="font-size:10px;">Market</td><td class="grn" style="font-weight:500;">+11.0%</td><td style="font-size:10px;color:#6b7280;">Consistent, no volatility</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:11px;color:#6b7280;">These 4 stores grew on both visits and basket. The Imbewu brand is not the problem — location selection and format fit are working well outside the Mega cluster.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function show(i,el){
+  document.querySelectorAll('.pg').forEach((p,j)=>p.classList.toggle('on',j===i));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+const months=["Jan'24","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan'25","Feb","Mar","Apr","May","Jun'25"];
+const wcD=[70653,60211,61963,64876,68973,62112,68102,60322,67314,67201,61790,70877,58300,54124,62047,67502,64833,58438];
+const gaD=[41825,32515,45205,40974,44594,46716,42028,47016,34788,39388,42693,39331,54425,45685,46410,40672,40881,46412];
+const kzD=[35769,34421,39340,30837,38365,39570,41491,38595,40107,39436,38430,38712,40807,40360,48603,34507,40003,45130];
+const ecD=[15584,11779,16154,15769,13267,15976,16050,12607,13201,15729,11883,13340,15216,17186,15057,14232,18698,16727];
+
+new Chart(document.getElementById('lineC'),{
+  type:'line',
+  data:{labels:months,datasets:[
+    {label:'Western Cape',data:wcD,borderColor:'#c0392b',backgroundColor:'rgba(192,57,43,.05)',borderWidth:2.5,pointRadius:0,tension:.35,fill:true},
+    {label:'Gauteng',data:gaD,borderColor:'#9ca3af',borderWidth:1.5,pointRadius:0,tension:.35,borderDash:[3,2]},
+    {label:'KwaZulu-Natal',data:kzD,borderColor:'#c4c9c0',borderWidth:1.2,pointRadius:0,tension:.35,borderDash:[2,3]},
+    {label:'Eastern Cape',data:ecD,borderColor:'#e2e5df',borderWidth:1,pointRadius:0,tension:.35}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' R'+Math.round(c.raw/1000)+'K'}}},
+    scales:{
+      x:{grid:{color:'#f0f2ee'},ticks:{font:{size:9},color:'#9ca3af',maxRotation:0,autoSkip:true,maxTicksLimit:9}},
+      y:{grid:{color:'#f0f2ee'},ticks:{font:{size:9},color:'#9ca3af',callback:v=>'R'+Math.round(v/1000)+'K'},min:10000}
+    }
+  }
+});
+
+new Chart(document.getElementById('provC'),{
+  type:'bar',
+  data:{labels:['Western Cape','Eastern Cape','Gauteng','KwaZulu-Natal'],
+    datasets:[{data:[-6.0,8.6,9.7,14.7],backgroundColor:['#fca5a5','#86efac','#86efac','#86efac'],borderColor:['#dc2626','#16a34a','#16a34a','#16a34a'],borderWidth:1,borderRadius:3}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.raw+'%'}}},
+    scales:{
+      x:{grid:{color:'#f0f2ee'},ticks:{font:{size:9},color:'#9ca3af',callback:v=>v+'%'}},
+      y:{grid:{display:false},ticks:{font:{size:10},color:'#374151'}}
+    }
+  }
+});
+
+const stores=[
+  {n:'Mega Bellville',f:'Mega',c:-25.3,r:-18667},
+  {n:'Market George',f:'Market',c:-14.1,r:-3781},
+  {n:'Market Claremont',f:'Market',c:-13.9,r:-3237},
+  {n:'Mega Paarl Central',f:'Mega',c:-12.0,r:-8154},
+  {n:'Express CBD',f:'Express',c:-10.5,r:-850},
+  {n:'Mega Tygervalley',f:'Mega',c:-6.7,r:-3998},
+  {n:'Mega Parow',f:'Mega',c:1.4,r:855},
+  {n:'Express Constantia',f:'Express',c:10.1,r:927},
+  {n:'Market Stellenbosch',f:'Market',c:11.0,r:2374},
+  {n:'Market Khayelitsha',f:'Market',c:29.6,r:6779},
+  {n:'Express Sea Point',f:'Express',c:31.7,r:2173},
+  {n:'Express Mitchells Plain',f:'Express',c:39.7,r:2274}
+];
+const maxA=40;
+const sb=document.getElementById('sbars');
+stores.forEach(s=>{
+  const pct=Math.abs(s.c)/maxA*46;
+  const neg=s.c<0;
+  const fmtCol=s.f==='Mega'?'#7c3aed':s.f==='Market'?'#0891b2':'#059669';
+  sb.innerHTML+=`<div class="srow">
+    <div class="sname" title="${s.n}">${s.n}</div>
+    <div class="strack">
+      <div class="scenter"></div>
+      <div class="sbar" style="background:${neg?'#fca5a5':'#86efac'};width:${pct}%;${neg?'right:50%':'left:50%'};"></div>
+    </div>
+    <div class="sval ${neg?'red':'grn'}">${s.c>0?'+':''}${s.c}%</div>
+    <div class="sbadge" style="background:${fmtCol}22;color:${fmtCol};">${s.f}</div>
+  </div>`;
+});
+
+new Chart(document.getElementById('fmtC'),{
+  type:'bar',
+  data:{labels:['Express','Market','Mega'],
+    datasets:[
+      {label:'H1 2024',data:[29857,94653,261686],backgroundColor:'#d1d5db',borderRadius:3},
+      {label:'H1 2025',data:[34381,96789,231722],backgroundColor:['#86efac','#86efac','#fca5a5'],borderRadius:3}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' R'+Math.round(c.raw/1000)+'K'}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:9},color:'#9ca3af'}},
+      y:{grid:{color:'#f0f2ee'},ticks:{font:{size:9},color:'#9ca3af',callback:v=>'R'+Math.round(v/1000)+'K'}}
+    }
+  }
+});
+
+new Chart(document.getElementById('catC'),{
+  type:'bar',
+  data:{labels:['Groceries','Household','Health & Beauty','Apparel','Electronics'],
+    datasets:[
+      {label:'WC',data:[-8.9,-10.9,2.6,2.9,8.0],backgroundColor:['#fca5a5','#fca5a5','#86efac','#86efac','#86efac'],borderRadius:2},
+      {label:'National',data:[3.0,0.1,6.5,14.5,6.1],backgroundColor:'rgba(134,239,172,0.35)',borderRadius:2,borderColor:'#16a34a',borderWidth:1}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.raw+'%'}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:9},color:'#9ca3af'}},
+      y:{grid:{color:'#f0f2ee'},ticks:{font:{size:9},color:'#9ca3af',callback:v=>v+'%'}}
+    }
+  }
+});
+
+const tiers=[
+  {name:'Gold',r24:89926,r25:90015,chg:'+0.1%',col:'#b45309'},
+  {name:'Silver',r24:59410,r25:52673,chg:'−11.3%',col:'#6b7280'},
+  {name:'Bronze',r24:82501,r25:78719,chg:'−4.6%',col:'#92400e'},
+  {name:'Guest',r24:154358,r25:141484,chg:'−8.3%',col:'#374151'}
+];
+const tv=document.getElementById('tierVis');
+const maxR=165000;
+tiers.forEach(t=>{
+  const neg=t.chg.startsWith('−');
+  tv.innerHTML+=`<div class="tier-row">
+    <div class="tier-label" style="font-size:11px;">${t.name}</div>
+    <div class="tier-bars">
+      <div class="bar-row"><div class="bar-year">2024</div><div class="bar-fill" style="width:${Math.round(t.r24/maxR*200)}px;background:#d1d5db;"></div><div class="bar-rev">R${Math.round(t.r24/1000)}K</div></div>
+      <div class="bar-row"><div class="bar-year">2025</div><div class="bar-fill" style="width:${Math.round(t.r25/maxR*200)}px;background:${neg?'#fca5a5':'#86efac'};"></div><div class="bar-rev">R${Math.round(t.r25/1000)}K <span style="color:${neg?'#b91c1c':'#15803d'};font-weight:500;">${t.chg}</span></div></div>
+    </div>
+  </div>`;
+});
+</script>
